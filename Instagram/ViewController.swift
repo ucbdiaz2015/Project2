@@ -17,17 +17,17 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        InstaFeed().fetchPostDetails{ (posts: [InstaFeed.Post]) -> ()
-            in
-            
-            self.posts = posts
-            
-            InstaUserProfile().fetchProfileDetails (self.posts[0].userID)  { (header: InstaUserProfile.ProfileHeader) -> () in
-            }
-            InstaUserProfile().fetchRecentMediaDetails(self.posts[0].userID)  { (userPosts: [InstaUserProfile.Post]) -> () in
-            }
-            
-        }
+//        InstaFeed().fetchPostDetails{ (posts: [InstaFeed.Post]) -> ()
+//            in
+//            
+//            self.posts = posts
+//            
+//            InstaUserProfile().fetchProfileDetails (self.posts[0].userID)  { (header: InstaUserProfile.ProfileHeader) -> () in
+//            }
+//            InstaUserProfile().fetchRecentMediaDetails(self.posts[0].userID)  { (userPosts: [InstaUserProfile.Post]) -> () in
+//            }
+//            
+//        }
     }
 
     override func didReceiveMemoryWarning() {

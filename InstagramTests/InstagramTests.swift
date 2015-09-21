@@ -55,7 +55,7 @@ class InstagramTests: XCTestCase {
         XCTAssertNotNil(self.feed[randomIndex].caption)
         XCTAssertNotNil(self.feed[randomIndex].likes)
         XCTAssertNotNil(self.feed[randomIndex].comments)
-        print(self.feed)
+        print(self.feed[randomIndex])
         
     }
     
@@ -63,7 +63,7 @@ class InstagramTests: XCTestCase {
     
     func testSuccessfulProfileRequest() {
         let randomIndex = Int(arc4random_uniform(UInt32(self.feed.count)))
-        var userProfileDetails: InstaUserProfile.ProfileHeader = (InstaUserProfile.ProfileHeader)
+        var userProfileDetails: InstaUserProfile.ProfileHeader = InstaUserProfile.ProfileHeader(profilePicURL: "", username: "", postCount: 0, followerCount: 0, followingCount: 0)
         
         let defaultTimeout: NSTimeInterval = 10
         let expectation = expectationWithDescription("Waiting for response")
@@ -73,44 +73,94 @@ class InstagramTests: XCTestCase {
             expectation.fulfill()
             userProfileDetails = header
         }
+        
         waitForExpectationsWithTimeout(defaultTimeout, handler: nil)
         XCTAssertNotNil(userProfileDetails)
     }
     
     func testUserProfileInfo() {
-        let randomIndex = arc4random_uniform(UInt32(self.feed.count))
+        let randomIndex = Int(arc4random_uniform(UInt32(self.feed.count)))
+        var userProfileDetails: InstaUserProfile.ProfileHeader = InstaUserProfile.ProfileHeader(profilePicURL: "", username: "", postCount: 0, followerCount: 0, followingCount: 0)
         
+        let defaultTimeout: NSTimeInterval = 10
+        let expectation = expectationWithDescription("Waiting for response")
         
         InstaUserProfile().fetchProfileDetails (self.feed[Int(randomIndex)].userID)  { (header: InstaUserProfile.ProfileHeader) -> () in
-            let userProfileDetails: InstaUserProfile.ProfileHeader = header
-        
-            XCTAssertNotNil(userProfileDetails.username)
-            XCTAssertNotNil(userProfileDetails.profilePicURL)
-            XCTAssertNotNil(userProfileDetails.postCount)
-            XCTAssertNotNil(userProfileDetails.followingCount)
-            XCTAssertNotNil(userProfileDetails.followerCount)
-            print(userProfileDetails)
+            
+            expectation.fulfill()
+            userProfileDetails = header
         }
-    }
+        waitForExpectationsWithTimeout(defaultTimeout, handler: nil)
     
-    func testSuccessfulRecentMediaRequest() {
-        let randomIndex = arc4random_uniform(UInt32(self.feed.count))
+        XCTAssertNotNil(userProfileDetails.username)
+        XCTAssertNotNil(userProfileDetails.profilePicURL)
+        XCTAssertNotNil(userProfileDetails.postCount)
+        XCTAssertNotNil(userProfileDetails.followingCount)
+        XCTAssertNotNil(userProfileDetails.followerCount)
+        print(userProfileDetails)
         
-        InstaUserProfile().fetchRecentMediaDetails (self.feed[Int(randomIndex)].userID)  { (posts: [InstaUserProfile.Post]) -> () in
+    }
+
+    func testSuccessfulRecentMediaRequest() {
+        let randomIndex = Int(arc4random_uniform(UInt32(self.feed.count)))
+        
+        let defaultTimeout: NSTimeInterval = 10
+        let expectation = expectationWithDescription("Waiting for response")
+        
+        InstaUserProfile().fetchRecentMediaDetails (self.feed[randomIndex].userID)  { (posts: [InstaUserProfile.Post]) -> () in
+            
+            expectation.fulfill()
+            
             let recentMedia: [InstaUserProfile.Post] = posts
             XCTAssertNotNil(recentMedia)
-            print(recentMedia)
+            //print(recentMedia)
         }
+        waitForExpectationsWithTimeout(defaultTimeout, handler: nil)
     }
     
-    func testBadUserID() {
-        let badUserID = "gibberish"
-        InstaUserProfile().fetchRecentMediaDetails (badUserID)  { (posts: [InstaUserProfile.Post]) -> () in
+    func testRandomRecentPost() {
+        let randomIndex = Int(arc4random_uniform(UInt32(self.feed.count)))
+    
+        let defaultTimeout: NSTimeInterval = 10
+        let expectation = expectationWithDescription("Waiting for response")
+    
+        InstaUserProfile().fetchRecentMediaDetails (self.feed[randomIndex].userID)  { (posts: [InstaUserProfile.Post]) -> () in
+    
+            expectation.fulfill()
+    
             let recentMedia: [InstaUserProfile.Post] = posts
-            XCTAssertNil(recentMedia)
+            XCTAssertNotNil(recentMedia)
+            
+            let randomPostIndex = Int(arc4random_uniform(UInt32(recentMedia.count)))
+            XCTAssertNotNil(recentMedia[randomPostIndex].userID)
+            XCTAssertNotNil(recentMedia[randomPostIndex].profilePicURL)
+            XCTAssertNotNil(recentMedia[randomPostIndex].username)
+            XCTAssertNotNil(recentMedia[randomPostIndex].created_time)
+            XCTAssertNotNil(recentMedia[randomPostIndex].caption)
+            XCTAssertNotNil(recentMedia[randomPostIndex].likes)
+            XCTAssertNotNil(recentMedia[randomPostIndex].comments)
+            print(recentMedia[randomPostIndex])
         }
+        waitForExpectationsWithTimeout(defaultTimeout, handler: nil)
+
     }
     
+//    func testBadUserID() {
+//        let badUserID = "gibberish"
+//        
+//        let defaultTimeout: NSTimeInterval = 10
+//        let expectation = expectationWithDescription("Waiting for response")
+//
+//        InstaUserProfile().fetchRecentMediaDetails (badUserID)  { (posts: [InstaUserProfile.Post]) -> () in
+//
+//            expectation.fulfill()
+//
+//            let recentMedia: [InstaUserProfile.Post] = posts
+//            XCTAssertNil(recentMedia)
+//        }
+//        waitForExpectationsWithTimeout(defaultTimeout, handler: nil)
+//    }
+//    
     
     func testPerformanceExample() {
         // This is an example of a performance test case.
