@@ -11,6 +11,8 @@ import UIKit
 class ViewController: UIViewController {
 
     var posts: [InstaFeed.Post] = []
+    //var userHeader: InstaUserProfile.ProfileHeader
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,9 +22,11 @@ class ViewController: UIViewController {
             
             self.posts = posts
             
-        }
-        
-        InstaUserProfile().fetchProfileDetails (self.posts[0].userID)  { (header: InstaUserProfile.ProfileHeader) -> () in
+            InstaUserProfile().fetchProfileDetails (self.posts[0].userID)  { (header: InstaUserProfile.ProfileHeader) -> () in
+            }
+            InstaUserProfile().fetchRecentMediaDetails(self.posts[0].userID)  { (userPosts: [InstaUserProfile.Post]) -> () in
+            }
+            
         }
     }
 
