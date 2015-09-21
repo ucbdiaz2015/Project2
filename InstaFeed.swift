@@ -15,6 +15,7 @@ public class InstaFeed {
     
     
     let feedURL: String = "https://api.instagram.com/v1/media/popular?client_id=c953ffadb974463f9f6813fc4fc91673"
+    //https://api.instagram.com/v1/media/popular?access_token=ACCESS-TOKEN
     
     struct Post {
         //let userID: String
@@ -36,18 +37,23 @@ public class InstaFeed {
         let text: String
     }
     
+    
     func fetchPostDetails (callback: ([Post]) -> Void) {
         Alamofire.request(.GET, feedURL)
             .responseJSON { _, _, result in
+                //let res = response
                 self.populatePostInfoWith(result.value, callback: callback)
         }
     }
     
+
     func populatePostInfoWith (data: AnyObject?, callback: ([Post]) -> Void) {
-        let json = JSON(data!)
+        let json = JSON(data!).dictionaryValue
+        //let json = data!
         var posts = [Post]()
         
-        for post in json.arrayValue {
+        for post in json["data"]!.arrayValue {
+            
             var comments = [Comment]()
             for comment in post["comments"]["data"].arrayValue {
                 comments.append(Comment(username: comment["username"].stringValue, text: comment["text"].stringValue))
@@ -60,7 +66,6 @@ public class InstaFeed {
                 caption: post["caption"]["text"].stringValue,
                 likes: post["likes"]["count"].intValue,
                 comments: comments
-                
             ))
         }
         

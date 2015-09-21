@@ -10,10 +10,16 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    var posts: [InstaFeed.Post] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        InstaFeed().fetchPostDetails{post in }
+        InstaFeed().fetchPostDetails{ posts //(posts: [InstaFeed.Post]) -> ()
+            in
+            
+            //self.posts = posts
+        }
     }
 
     override func didReceiveMemoryWarning() {
