@@ -1,0 +1,122 @@
+//
+//  InstagramTests.swift
+//  InstagramTests
+//
+//  Created by ddd on 9/21/15.
+//  Copyright © 2015 TalentSpark. All rights reserved.
+//
+
+import XCTest
+@testable import Instagram
+
+
+class InstagramTests: XCTestCase {
+    
+    var feed: [InstaFeed.Post] = []
+
+    
+    override func setUp() {
+        super.setUp()
+        // Put setup code here. This method is called before the invocation of each test method in the class.
+        
+        let defaultTimeout: NSTimeInterval = 10
+        let expectation = expectationWithDescription("Waiting for response")
+        InstaFeed().fetchPostDetails{ (posts: [InstaFeed.Post]) -> ()
+            in
+            
+            expectation.fulfill()
+            self.feed = posts
+        }
+        waitForExpectationsWithTimeout(defaultTimeout, handler: nil)
+        
+    }
+    
+    override func tearDown() {
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        super.tearDown()
+    }
+    
+    
+    
+    
+    func testSuccessfulMediaConnection() {
+        //var feed : [InstaFeed.Post] = []
+        XCTAssertNotNil(self.feed)
+        print("count: " + String(self.feed.count))
+    }
+        
+    
+    func testFeedContents() {
+        let randomIndex = Int(arc4random_uniform(UInt32(self.feed.count)))
+        XCTAssertNotNil(self.feed[randomIndex].userID)
+        XCTAssertNotNil(self.feed[randomIndex].profilePicURL)
+        XCTAssertNotNil(self.feed[randomIndex].username)
+        XCTAssertNotNil(self.feed[randomIndex].created_time)
+        XCTAssertNotNil(self.feed[randomIndex].caption)
+        XCTAssertNotNil(self.feed[randomIndex].likes)
+        XCTAssertNotNil(self.feed[randomIndex].comments)
+        print(self.feed)
+        
+    }
+    
+    
+    
+    func testSuccessfulProfileRequest() {
+        let randomIndex = Int(arc4random_uniform(UInt32(self.feed.count)))
+        var userProfileDetails: InstaUserProfile.ProfileHeader = (InstaUserProfile.ProfileHeader)
+        
+        let defaultTimeout: NSTimeInterval = 10
+        let expectation = expectationWithDescription("Waiting for response")
+    
+        InstaUserProfile().fetchProfileDetails (self.feed[Int(randomIndex)].userID)  { (header: InstaUserProfile.ProfileHeader) -> () in
+            
+            expectation.fulfill()
+            userProfileDetails = header
+        }
+        waitForExpectationsWithTimeout(defaultTimeout, handler: nil)
+        XCTAssertNotNil(userProfileDetails)
+    }
+    
+    func testUserProfileInfo() {
+        let randomIndex = arc4random_uniform(UInt32(self.feed.count))
+        
+        
+        InstaUserProfile().fetchProfileDetails (self.feed[Int(randomIndex)].userID)  { (header: InstaUserProfile.ProfileHeader) -> () in
+            let userProfileDetails: InstaUserProfile.ProfileHeader = header
+        
+            XCTAssertNotNil(userProfileDetails.username)
+            XCTAssertNotNil(userProfileDetails.profilePicURL)
+            XCTAssertNotNil(userProfileDetails.postCount)
+            XCTAssertNotNil(userProfileDetails.followingCount)
+            XCTAssertNotNil(userProfileDetails.followerCount)
+            print(userProfileDetails)
+        }
+    }
+    
+    func testSuccessfulRecentMediaRequest() {
+        let randomIndex = arc4random_uniform(UInt32(self.feed.count))
+        
+        InstaUserProfile().fetchRecentMediaDetails (self.feed[Int(randomIndex)].userID)  { (posts: [InstaUserProfile.Post]) -> () in
+            let recentMedia: [InstaUserProfile.Post] = posts
+            XCTAssertNotNil(recentMedia)
+            print(recentMedia)
+        }
+    }
+    
+    func testBadUserID() {
+        let badUserID = "gibberish"
+        InstaUserProfile().fetchRecentMediaDetails (badUserID)  { (posts: [InstaUserProfile.Post]) -> () in
+            let recentMedia: [InstaUserProfile.Post] = posts
+            XCTAssertNil(recentMedia)
+        }
+    }
+    
+    
+    func testPerformanceExample() {
+        // This is an example of a performance test case.
+        self.measureBlock {
+            // Put the code you want to measure the time of here.
+        }
+    }
+    
+}
