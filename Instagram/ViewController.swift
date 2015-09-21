@@ -15,10 +15,14 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        InstaFeed().fetchPostDetails{ posts //(posts: [InstaFeed.Post]) -> ()
+        InstaFeed().fetchPostDetails{ (posts: [InstaFeed.Post]) -> ()
             in
             
-            //self.posts = posts
+            self.posts = posts
+            
+        }
+        
+        InstaUserProfile().fetchProfileDetails (self.posts[0].userID)  { (header: InstaUserProfile.ProfileHeader) -> () in
         }
     }
 
