@@ -20,8 +20,8 @@ class CommentTableViewCell: UITableViewCell {
     var commentInfo: InstaFeed.Comment? {
         didSet {
             if let setComment = commentInfo {
-                self.username.text = setComment.username
-                self.comment.text = setComment.text
+                username.text = setComment.username
+                comment.text = setComment.text
             }
         }
     }
