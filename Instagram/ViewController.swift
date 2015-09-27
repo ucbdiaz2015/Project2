@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    var posts: [InstaFeed.Post] = []
+    //var posts: [InstaFeed.Post] = []
     //var userHeader: InstaUserProfile.ProfileHeader
     
     
