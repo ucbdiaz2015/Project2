@@ -16,13 +16,13 @@ class MediaTableViewController: UITableViewController {
         super.viewDidLoad()
         
         
-        self.tableView.estimatedRowHeight = 400
+        self.tableView.estimatedRowHeight = 2500
         // This line isn't necessary on iOS 8 and above but I left it here to be more explicit
         self.tableView.rowHeight = UITableViewAutomaticDimension
         
         InstaFeed().fetchPostDetails{ (posts: [InstaFeed.Post]) -> () in
             self.posts = posts
-            
+            self.tableView.reloadData()
             
         }
 
@@ -73,6 +73,7 @@ class MediaTableViewController: UITableViewController {
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
+        
         return self.posts.count
     }
 
@@ -88,6 +89,18 @@ class MediaTableViewController: UITableViewController {
         // Configure the cell...
         let post = posts[indexPath.row]
         cell.post = post
+
+//        cell.likes?.text = (post.likes as NSNumber).stringValue
+//        cell.caption?.text = post.caption
+//        
+//        if let url = NSURL(string: post.profilePicURL) {
+//            if let data = NSData(contentsOfURL: url) {
+//                cell.postImage?.contentMode = UIViewContentMode.ScaleAspectFit
+//                cell.postImage?.image = UIImage(data: data)
+//            } else {
+//                cell.postImage?.image = UIImage(named: "world")
+//            }
+//        }
         
         
         return cell

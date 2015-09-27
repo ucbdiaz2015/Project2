@@ -6,7 +6,7 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Media Table View Controller-->
+        <!--Feed-->
         <scene sceneID="fNs-L1-XyX">
             <objects>
                 <tableViewController id="9be-KI-hSb" customClass="MediaTableViewController" customModule="Instagram" customModuleProvider="target" sceneMemberID="viewController">
@@ -23,16 +23,16 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="iO3-rM-Qup">
-                                            <rect key="frame" x="0.0" y="8" width="400" height="442"/>
+                                            <rect key="frame" x="0.0" y="8" width="600" height="593"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="world" translatesAutoresizingMaskIntoConstraints="NO" id="CbD-HR-91y">
-                                                    <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="550" height="551"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="CbD-HR-91y" secondAttribute="height" multiplier="1:1" id="bOE-9i-Nhs"/>
                                                     </constraints>
                                                 </imageView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bq7-7d-DTD">
-                                                    <rect key="frame" x="0.0" y="400" width="400" height="21"/>
+                                                    <rect key="frame" x="0.0" y="551" width="600" height="21"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" text="❤️" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vfh-IP-g9B">
                                                             <rect key="frame" x="0.0" y="0.0" width="22" height="21"/>
@@ -41,7 +41,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Likes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6tb-Ev-HFh">
-                                                            <rect key="frame" x="22" y="0.0" width="378" height="21"/>
+                                                            <rect key="frame" x="22" y="0.0" width="578" height="21"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <nil key="highlightedColor"/>
@@ -49,31 +49,39 @@
                                                     </subviews>
                                                 </stackView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Caption" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YBv-m3-JWH">
-                                                    <rect key="frame" x="0.0" y="421" width="60" height="21"/>
+                                                    <rect key="frame" x="0.0" y="572" width="60" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailingMargin" secondItem="Bq7-7d-DTD" secondAttribute="trailing" id="2ms-cD-as8"/>
-                                                <constraint firstAttribute="leadingMargin" secondItem="CbD-HR-91y" secondAttribute="leading" id="86d-WP-ovm"/>
-                                                <constraint firstAttribute="leadingMargin" secondItem="Bq7-7d-DTD" secondAttribute="leading" id="MQ0-p2-DRQ"/>
-                                                <constraint firstItem="Bq7-7d-DTD" firstAttribute="top" secondItem="iO3-rM-Qup" secondAttribute="top" constant="400" id="f4E-SR-Wlh"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="CbD-HR-91y" secondAttribute="trailing" id="mGp-LY-Xhs"/>
+                                                <constraint firstAttribute="leadingMargin" secondItem="Bq7-7d-DTD" secondAttribute="leading" id="2Q3-Ac-Asm"/>
+                                                <constraint firstItem="CbD-HR-91y" firstAttribute="top" secondItem="iO3-rM-Qup" secondAttribute="top" id="IOM-XB-58r"/>
+                                                <constraint firstItem="Bq7-7d-DTD" firstAttribute="top" secondItem="CbD-HR-91y" secondAttribute="bottom" id="Wnl-EA-hFY"/>
+                                                <constraint firstAttribute="leadingMargin" secondItem="CbD-HR-91y" secondAttribute="leading" id="gzX-o1-eOa"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="Bq7-7d-DTD" secondAttribute="trailing" id="r5k-ah-4yY"/>
                                             </constraints>
                                         </stackView>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstItem="iO3-rM-Qup" firstAttribute="top" secondItem="7Ux-mn-a4g" secondAttribute="topMargin" id="7yC-9g-WvK"/>
                                         <constraint firstAttribute="trailing" secondItem="iO3-rM-Qup" secondAttribute="trailing" id="89w-L5-vlS"/>
                                         <constraint firstItem="iO3-rM-Qup" firstAttribute="leading" secondItem="7Ux-mn-a4g" secondAttribute="leading" id="Bab-Qk-jRm"/>
-                                        <constraint firstItem="iO3-rM-Qup" firstAttribute="top" secondItem="7Ux-mn-a4g" secondAttribute="topMargin" id="L9I-Bw-2zq"/>
+                                        <constraint firstItem="iO3-rM-Qup" firstAttribute="height" secondItem="7Ux-mn-a4g" secondAttribute="height" id="ES0-93-jSf"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="iO3-rM-Qup" secondAttribute="bottom" id="Ekw-u3-0zW"/>
+                                        <constraint firstItem="CbD-HR-91y" firstAttribute="width" secondItem="7Ux-mn-a4g" secondAttribute="width" id="nq1-7q-I9A"/>
                                     </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="Ekw-u3-0zW"/>
+                                        </mask>
+                                    </variation>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="captionLabel" destination="YBv-m3-JWH" id="oII-jR-ABV"/>
-                                    <outlet property="likesLabel" destination="6tb-Ev-HFh" id="Wqz-57-kSC"/>
-                                    <outlet property="postImage" destination="CbD-HR-91y" id="iet-ZR-4c6"/>
+                                    <outlet property="caption" destination="YBv-m3-JWH" id="DAc-O8-GAk"/>
+                                    <outlet property="likes" destination="6tb-Ev-HFh" id="j0t-AH-7EL"/>
+                                    <outlet property="postImage" destination="CbD-HR-91y" id="KOO-gS-3oP"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -82,7 +90,7 @@
                             <outlet property="delegate" destination="9be-KI-hSb" id="ZOC-ez-R4D"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="419-nH-LXF"/>
+                    <navigationItem key="navigationItem" title="Feed" id="419-nH-LXF"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UGw-5E-e31" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

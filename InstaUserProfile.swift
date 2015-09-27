@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Foundation
 import Alamofire
 import SwiftyJSON
 
@@ -33,6 +32,8 @@ public class InstaUserProfile {
         let profilePicURL: String
         let username: String
         let created_time: String
+        
+        let postImageURL: String
         let caption: String
         let likes: Int
         //comments in table view
@@ -96,6 +97,7 @@ public class InstaUserProfile {
                 profilePicURL: post["user"]["profile_picture"].stringValue,
                 username: post["user"]["username"].stringValue,
                 created_time: post["created_time"].stringValue,
+                postImageURL: post["images"]["standard_resolution"]["url"].stringValue,
                 caption: post["caption"]["text"].stringValue,
                 likes: post["likes"]["count"].intValue,
                 comments: comments
