@@ -80,29 +80,55 @@ class MediaTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return self.posts[section].comments.count + 1
+        //return 1
     }
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("MediaCell", forIndexPath: indexPath) as! MediaTableViewCell
+        if (indexPath.row == 0) {
+        
+            let cell = tableView.dequeueReusableCellWithIdentifier("MediaCell", forIndexPath: indexPath) as! MediaTableViewCell
 
-        // Configure the cell...
-        let post = posts[indexPath.row]
-        cell.post = post
-
-//        cell.likes?.text = (post.likes as NSNumber).stringValue
-//        cell.caption?.text = post.caption
+            // Configure the cell...
+            let post = posts[indexPath.section]
+            //print(indexPath.row)
+            cell.post = post
+            
+            print(post.comments)
+            
+            return cell
+            
+            
+        } else {
+            
+            let commentCell = tableView.dequeueReusableCellWithIdentifier("CommentCell", forIndexPath: indexPath) as! CommentTableViewCell
+            
+            // Configure the cell...
+            let comment = posts[indexPath.section].comments[indexPath.row - 1]
+            //print(indexPath.row)
+            commentCell.commentInfo = comment
+            
+            return commentCell
+        }
+        
+        
+    }
+    
+//    override func tableView(tableView: UITableView, viewFor) -> UITableViewCell {
+//        let cell = tableView.dequeueReusableCellWithIdentifier("CommentCell", forIndexPath: indexPath) as! CommentTableViewCell
 //        
-//        if let url = NSURL(string: post.profilePicURL) {
-//            if let data = NSData(contentsOfURL: url) {
-//                cell.postImage?.contentMode = UIViewContentMode.ScaleAspectFit
-//                cell.postImage?.image = UIImage(data: data)
-//            } else {
-//                cell.postImage?.image = UIImage(named: "world")
-//            }
-//        }
-        
-        
+//        // Configure the cell...
+//        let comment = posts[indexPath.row][comments][indexPath.row]
+//        cell.post = post
+//        return cell
+//    }
+    
+    
+    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let cell = tableView.dequeueReusableCellWithIdentifier("HeaderCell") as! HeaderTableViewCell
+        //let cell = tableView.dequeueReusableCellWithIdentifier("HeaderCell" , forSection: section) as! HeaderTableViewCell
+        let post = posts[section]
+        cell.post = post
         return cell
     }
     

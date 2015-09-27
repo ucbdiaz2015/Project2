@@ -22,14 +22,14 @@ class MediaTableViewCell: UITableViewCell {
                 caption.text = (setPost.caption)
                 
                 
-                if let url = NSURL(string: setPost.profilePicURL) {
+                if let url = NSURL(string: setPost.postImageURL) {
                     if let data = NSData(contentsOfURL: url) {
                         postImage.contentMode = UIViewContentMode.ScaleAspectFit
                         postImage.image = UIImage(data: data)
                     }
                 }
 
-                //loadOrFetchImageFor(post!.userID, postImageUrl: post!.postImageURL, cell: self)
+                loadOrFetchImageFor(post!.userID, postImageUrl: post!.postImageURL, cell: self)
                 
             }
         }
@@ -44,7 +44,7 @@ class MediaTableViewCell: UITableViewCell {
             cell.postImage?.image = image
         } else {
             if let url = NSURL(string: postImageUrl) { // need to fetch
-                dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.rawValue), 0))  {
+                //dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.rawValue), 0))  {
                     if let data = NSData(contentsOfURL: url) {
                         if let avatarSquare = UIImage(data:data) {
                          //   let avatarCircle = UIImage.roundedRectImageFromImage(avatarSquare, imageSize: avatarSquare.size, cornerRadius: avatarSquare.size.width / 2)
@@ -61,7 +61,7 @@ class MediaTableViewCell: UITableViewCell {
                                 }
                             }
                         }
-                    }
+                    //}
                 }
             }
         }
