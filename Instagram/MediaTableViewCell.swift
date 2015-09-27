@@ -32,9 +32,7 @@ class MediaTableViewCell: UITableViewCell {
                         self.postImage.image = UIImage(named: "world")
                     }
                 }
-                else {
-                    self.postImage.image = UIImage(named: "world")
-                }
+                
             }
         }
     }

@@ -67,7 +67,7 @@
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="iO3-rM-Qup" secondAttribute="trailing" id="89w-L5-vlS"/>
                                         <constraint firstItem="iO3-rM-Qup" firstAttribute="leading" secondItem="7Ux-mn-a4g" secondAttribute="leading" id="Bab-Qk-jRm"/>
-                                        <constraint firstItem="iO3-rM-Qup" firstAttribute="top" secondItem="7Ux-mn-a4g" secondAttribute="topMargin" id="wnt-55-8mo"/>
+                                        <constraint firstItem="iO3-rM-Qup" firstAttribute="top" secondItem="7Ux-mn-a4g" secondAttribute="topMargin" id="L9I-Bw-2zq"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
