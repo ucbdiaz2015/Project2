@@ -22,6 +22,10 @@ class CommentTableViewCell: UITableViewCell {
             if let setComment = commentInfo {
                 username.text = setComment.username
                 comment.text = setComment.text
+                
+                comment.lineBreakMode = NSLineBreakMode.ByWordWrapping
+                comment.numberOfLines = 0;
+               // [comment sizeToFit];
             }
         }
     }

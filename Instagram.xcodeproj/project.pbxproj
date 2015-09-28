@@ -40,6 +40,7 @@
 		A81E61131BB7D324002367E3 /* SwiftlyLRU.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftlyLRU.swift; sourceTree = "<group>"; };
 		A81E61151BB7F6FA002367E3 /* HeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderTableViewCell.swift; sourceTree = "<group>"; };
 		A81E61171BB80230002367E3 /* CommentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
+		A81E61191BB8F68B002367E3 /* InstagramBridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstagramBridgingHeader.h; sourceTree = "<group>"; };
 		A85BA8D41BAF28230053517C /* Instagram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Instagram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A85BA8D71BAF28230053517C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A85BA8D91BAF28230053517C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -115,6 +116,7 @@
 		A85BA8D61BAF28230053517C /* Instagram */ = {
 			isa = PBXGroup;
 			children = (
+				A81E61191BB8F68B002367E3 /* InstagramBridgingHeader.h */,
 				A81E61131BB7D324002367E3 /* SwiftlyLRU.swift */,
 				A85BA8ED1BAF6BE00053517C /* InstaUserProfile.swift */,
 				A85BA8EB1BAF6A7F0053517C /* InstaFeed.swift */,
@@ -382,6 +384,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = Instagram/InstagramBridgingHeader.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -420,6 +423,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = Instagram/InstagramBridgingHeader.h;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
