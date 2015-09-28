@@ -34,6 +34,22 @@ class MediaTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
+    @IBAction func refreshData(sender: UIRefreshControl) {
+        refreshData()
+    }
+    
+    func refreshData() {
+        InstaFeed().fetchPostDetails{ (posts: [InstaFeed.Post]) -> () in
+            self.posts = posts
+            self.tableView.reloadData()
+            self.refreshControl?.endRefreshing()
+            
+        }
+        self.refreshControl?.endRefreshing()
+        
+    }
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -113,15 +129,6 @@ class MediaTableViewController: UITableViewController {
         
         
     }
-    
-//    override func tableView(tableView: UITableView, viewFor) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCellWithIdentifier("CommentCell", forIndexPath: indexPath) as! CommentTableViewCell
-//        
-//        // Configure the cell...
-//        let comment = posts[indexPath.row][comments][indexPath.row]
-//        cell.post = post
-//        return cell
-//    }
     
     
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

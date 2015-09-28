@@ -21,30 +21,11 @@ class HeaderTableViewCell: UITableViewCell {
         didSet {
             if let setPost = post {
                 username.text = setPost.username
-                
-                
-                //let now = NSDate().timeIntervalSince1970
-                
-                //let timeAgoDate: NSDate = (setPost.created_time as NSInteger - now as NSInteger) as NSDate;
 
-                //let time = [NSDate dateWithTimeIntervalSince1970:setPost.timestamp];
-                
-                
-//                NSDate *timeAgoDate = [NSDate dateWithTimeIntervalSinceNow:-4];
-//                NSLog(@"Time Ago: %@", timeAgoDate.timeAgoSinceNow);
-//                NSLog(@"Time Ago: %@", timeAgoDate.shortTimeAgoSinceNow);
-                //(setPost.created_time as NSString)
-                //(setPost.created_time as NSString).doubleValue
                 
                 let date = NSDate(timeIntervalSince1970: (setPost.created_time as NSString).doubleValue)
                 let timeAgo = NSDate().shortTimeAgoSinceDate(date)
-                
-                //let time = NSDate.timeIntervalSinceDate(date)
-                //let timeAgo = NSDate.dateWithTimeIntervalSinceNow(time)
-                
                 timestamp.text = timeAgo
-                
-                
                 
                 
                 if let url = NSURL(string: setPost.profilePicURL) {

@@ -127,9 +127,9 @@
 				A85BA8E01BAF28230053517C /* LaunchScreen.storyboard */,
 				A85BA8E31BAF28230053517C /* Info.plist */,
 				A86F00591BB4F614008DD9F1 /* MediaTableViewCell.swift */,
-				A86F005D1BB4F8C5008DD9F1 /* MediaTableViewController.swift */,
 				A81E61151BB7F6FA002367E3 /* HeaderTableViewCell.swift */,
 				A81E61171BB80230002367E3 /* CommentTableViewCell.swift */,
+				A86F005D1BB4F8C5008DD9F1 /* MediaTableViewController.swift */,
 			);
 			path = Instagram;
 			sourceTree = "<group>";
