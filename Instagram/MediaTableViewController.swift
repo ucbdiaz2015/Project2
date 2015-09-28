@@ -45,7 +45,7 @@ class MediaTableViewController: UITableViewController {
             self.refreshControl?.endRefreshing()
             
         }
-        self.refreshControl?.endRefreshing()
+        //self.refreshControl?.endRefreshing()
         
     }
     
