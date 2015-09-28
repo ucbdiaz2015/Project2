@@ -53,16 +53,17 @@ class HeaderTableViewCell: UITableViewCell {
                 //dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.rawValue), 0))  {
                 if let data = NSData(contentsOfURL: url) {
                     if let avatarSquare = UIImage(data:data) {
-                        //   let avatarCircle = UIImage.roundedRectImageFromImage(avatarSquare, imageSize: avatarSquare.size, cornerRadius: avatarSquare.size.width / 2)
+                           let avatarCircle = UIImage.roundedRectImageFromImage(avatarSquare, imageSize: avatarSquare.size, cornerRadius: avatarSquare.size.width / 2)
                         //     self.cachedImages.updateValue(avatarCircle, forKey: login)
-                        self.cachedImages[userID] = avatarSquare
+                        //self.cachedImages[userID] = avatarSquare
+                        self.cachedImages[userID] = avatarCircle
                         // Because this happens asynchronously in the background, we need to check that by the time we get here
                         // that the cell that requested the image is still the one that is being displayed.
                         // If it is not, we would have cached the image for the future but we will not display it for now.
                         if(cell.textLabel?.text == userID) {
                             dispatch_async(dispatch_get_main_queue()) {
-                                //cell.imageView?.image = avatarCircle
-                                cell.imageView?.image = avatarSquare
+                                cell.imageView?.image = avatarCircle
+                                //cell.imageView?.image = avatarSquare
                                 
                             }
                         }

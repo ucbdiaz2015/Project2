@@ -28,7 +28,7 @@
                                             <attributedString key="attributedText">
                                                 <fragment content="username">
                                                     <attributes>
-                                                        <color key="NSColor" red="0.15767034187483986" green="0.25316793089383316" blue="0.74210858585858586" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="NSColor" red="0.2196078431372549" green="0.32549019607843138" blue="0.55686274509803924" alpha="1" colorSpace="calibratedRGB"/>
                                                         <font key="NSFont" size="16" name="HelveticaNeue-Medium"/>
                                                     </attributes>
                                                 </fragment>
@@ -82,7 +82,7 @@
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Likes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OMA-l1-SRh">
                                                             <rect key="frame" x="22" y="0.0" width="570" height="21"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <color key="textColor" red="0.21960784310000001" green="0.32549019610000002" blue="0.5568627451" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
@@ -133,7 +133,7 @@
                                                     <attributedString key="attributedText">
                                                         <fragment content="username">
                                                             <attributes>
-                                                                <color key="NSColor" red="0.12223063687908341" green="0.34936793487152001" blue="0.75499131944444442" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <color key="NSColor" red="0.2196078431372549" green="0.32549019607843138" blue="0.55686274509803924" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <font key="NSFont" size="14" name="HelveticaNeue-Medium"/>
                                                                 <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="truncatingTail" baseWritingDirection="natural" lineHeightMultiple="1" tighteningFactorForTruncation="0.0"/>
                                                             </attributes>
@@ -207,7 +207,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Hui-5w-YqK">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.25708539626016524" green="0.41167062179794012" blue="0.67299952651515149" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.25708539629999999" green="0.41167062180000003" blue="0.67299952649999994" alpha="1" colorSpace="calibratedRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" red="0.96084470423119561" green="0.97634750374128454" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         </textAttributes>
