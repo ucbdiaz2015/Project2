@@ -14,22 +14,25 @@ class MediaTableViewCell: UITableViewCell {
     @IBOutlet weak var postImage: UIImageView!
     @IBOutlet weak var likes: UILabel!
     @IBOutlet weak var caption: UILabel!
+    var userID : String!
     
     var post: InstaFeed.Post? {
         didSet {
             if let setPost = post {
+                userID = setPost.userID
+                
                 likes.text = (setPost.likes as NSNumber).stringValue
                 caption.text = (setPost.caption)
                 
                 
-                if let url = NSURL(string: setPost.postImageURL) {
-                    if let data = NSData(contentsOfURL: url) {
-                        postImage.contentMode = UIViewContentMode.ScaleAspectFit
-                        postImage.image = UIImage(data: data)
-                    }
-                }
+//                if let url = NSURL(string: setPost.postImageURL) {
+//                    if let data = NSData(contentsOfURL: url) {
+//                        postImage.contentMode = UIViewContentMode.ScaleAspectFit
+//                        postImage.image = UIImage(data: data)
+//                    }
+//                }
 
-                loadOrFetchImageFor(post!.userID, postImageUrl: post!.postImageURL, cell: self)
+                loadOrFetchImageFor(userID, postImageUrl: post!.postImageURL, cell: self)
                 
             }
         }
@@ -53,10 +56,10 @@ class MediaTableViewCell: UITableViewCell {
                             // Because this happens asynchronously in the background, we need to check that by the time we get here
                             // that the cell that requested the image is still the one that is being displayed.
                             // If it is not, we would have cached the image for the future but we will not display it for now.
-                            if(cell.textLabel?.text == userID) {
+                            if(cell.userID == userID) {
                                 dispatch_async(dispatch_get_main_queue()) {
                                     //cell.imageView?.image = avatarCircle
-                                    cell.imageView?.image = avatarSquare
+                                    cell.postImage?.image = avatarSquare
 
                                 }
                             }

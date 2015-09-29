@@ -15,11 +15,14 @@ class HeaderTableViewCell: UITableViewCell {
     @IBOutlet weak var profilePic: UIImageView!
     @IBOutlet weak var username: UILabel!
     @IBOutlet weak var timestamp: UILabel!
-    
+    var userID: String!
     
     var post: InstaFeed.Post? {
         didSet {
             if let setPost = post {
+                
+                userID = setPost.userID
+                
                 username.text = setPost.username
 
                 
@@ -28,20 +31,22 @@ class HeaderTableViewCell: UITableViewCell {
                 timestamp.text = timeAgo
                 
                 
-                if let url = NSURL(string: setPost.profilePicURL) {
-                    if let data = NSData(contentsOfURL: url) {
-                        profilePic.contentMode = UIViewContentMode.ScaleAspectFit
-                        profilePic.image = UIImage(data: data)
-                    }
-                }
+//                if let url = NSURL(string: setPost.profilePicURL) {
+//                    if let data = NSData(contentsOfURL: url) {
+//                        profilePic.contentMode = UIViewContentMode.ScaleAspectFit
+//                        profilePic.image = UIImage(data: data)
+//                    
+//                    }
+//                
+//                }
                 
-                loadOrFetchImageFor(post!.userID, profilePicUrl: post!.profilePicURL, cell: self)
+                loadOrFetchImageFor(setPost.userID, profilePicUrl: setPost.profilePicURL, cell: self)
                 
             }
         }
     }
 
-    var cachedImages = SwiftlyLRU<String, UIImage>(capacity: 15)
+    var cachedImages = SwiftlyLRU<String, UIImage>(capacity: 24)
     
     
     
@@ -50,35 +55,34 @@ class HeaderTableViewCell: UITableViewCell {
             cell.profilePic?.image = image
         } else {
             if let url = NSURL(string: profilePicUrl) { // need to fetch
+                //print("HERES THE URL!!!!!!!!!")
+                //print(url)
                 //dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.rawValue), 0))  {
                 if let data = NSData(contentsOfURL: url) {
+                    //print("DATA!!!!!!!")
                     if let avatarSquare = UIImage(data:data) {
-                           let avatarCircle = UIImage.roundedRectImageFromImage(avatarSquare, imageSize: avatarSquare.size, cornerRadius: avatarSquare.size.width / 2)
-                        //     self.cachedImages.updateValue(avatarCircle, forKey: login)
+                        print("Square")
+                        let avatarCircle = UIImage.roundedRectImageFromImage(avatarSquare, imageSize: avatarSquare.size, cornerRadius: avatarSquare.size.width / 2)
+                        
                         //self.cachedImages[userID] = avatarSquare
                         self.cachedImages[userID] = avatarCircle
+                        
                         // Because this happens asynchronously in the background, we need to check that by the time we get here
                         // that the cell that requested the image is still the one that is being displayed.
                         // If it is not, we would have cached the image for the future but we will not display it for now.
-                        if(cell.textLabel?.text == userID) {
+                        if(cell.userID == userID) {
                             dispatch_async(dispatch_get_main_queue()) {
-                                cell.imageView?.image = avatarCircle
+                                cell.profilePic?.image = avatarCircle
                                 //cell.imageView?.image = avatarSquare
                                 
                             }
                         }
                     }
-                    //}
                 }
             }
         }
     }
 
-    
-    
-    
-    
-    
     
     
     
@@ -94,5 +98,20 @@ class HeaderTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+}
 
+
+extension UIImage {
+    
+    class func roundedRectImageFromImage(image: UIImage, imageSize: CGSize, cornerRadius: CGFloat)->UIImage {
+        UIGraphicsBeginImageContextWithOptions(imageSize, false, 0.0)
+        let bounds = CGRect(origin: CGPointZero, size: imageSize)
+        UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius).addClip()
+        image.drawInRect(bounds)
+        let finalImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return finalImage
+    }
+    
 }

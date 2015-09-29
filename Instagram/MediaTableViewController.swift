@@ -20,12 +20,7 @@ class MediaTableViewController: UITableViewController {
         // This line isn't necessary on iOS 8 and above but I left it here to be more explicit
         self.tableView.rowHeight = UITableViewAutomaticDimension
         
-        InstaFeed().fetchPostDetails{ (posts: [InstaFeed.Post]) -> () in
-            self.posts = posts
-            self.tableView.reloadData()
-            
-        }
-
+        refreshData()
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -34,6 +29,9 @@ class MediaTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
+    
+    // MARK: Refreshing
+    
     @IBAction func refreshData(sender: UIRefreshControl) {
         refreshData()
     }
@@ -54,34 +52,6 @@ class MediaTableViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    
-    // MARK: Refreshing
-//    @IBAction func refreshData(sender: UIRefreshControl) {
-//        refreshFromParse()
-//    }
-//    
-//    func refreshFromParse() {
-//        // Load initial data from Parse
-//        // https://www.parse.com/docs/ios/guide#queries-basic-queries
-//        let query = PFQuery(className:"Note")
-//        query.addDescendingOrder("updatedAt")
-//        query.findObjectsInBackgroundWithBlock {
-//            (notes, error) -> Void in
-//            
-//            if error == nil {
-//                print("Successfully retrieved \(notes!.count) notes.")
-//                if let notes = notes {
-//                    self.notes = notes
-//                    self.tableView.reloadData()
-//                    self.refreshControl?.endRefreshing()
-//                }
-//            } else {
-//                print("Error: \(error!) \(error!.userInfo)")
-//            }
-//        }
-//    }
-    
     
     
 
