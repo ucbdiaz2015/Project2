@@ -18,6 +18,9 @@ public class InstaFeed {
     //let post =
     
     struct Post {
+        let postID: String
+        
+        
         let userID: String
         let profilePicURL: String
         let username: String
@@ -60,6 +63,7 @@ public class InstaFeed {
             }
             
             posts.append(Post(
+                postID: post["id"].stringValue,
                 userID: post["user"]["id"].stringValue,
                 profilePicURL: post["user"]["profile_picture"].stringValue,
                 username: post["user"]["username"].stringValue,

@@ -11,22 +11,32 @@ import UIKit
 class MediaTableViewController: UITableViewController {
 
     var posts: [InstaFeed.Post] = []
+    //var userPosts: [InstaUserProfile.Post] = []
+    var user: Bool = false
+    var userID: String?
+    var profileHeader: InstaUserProfile.ProfileHeader?
+    
+    
+//    @IBOutlet weak var postHeaderCell: HeaderTableViewCell!
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+       
+    
         self.tableView.estimatedRowHeight = 2500
         // This line isn't necessary on iOS 8 and above but I left it here to be more explicit
         self.tableView.rowHeight = UITableViewAutomaticDimension
         
-        refreshData()
+        
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        self.refreshData()
     }
 
     
@@ -36,12 +46,59 @@ class MediaTableViewController: UITableViewController {
         refreshData()
     }
     
+
+    
     func refreshData() {
-        InstaFeed().fetchPostDetails{ (posts: [InstaFeed.Post]) -> () in
-            self.posts = posts
-            self.tableView.reloadData()
-            self.refreshControl?.endRefreshing()
+//        if self.user {
+            if let id = self.userID {
+    
+                
+                InstaUserProfile().fetchProfileDetails(id) { (header: (InstaUserProfile.ProfileHeader)) -> () in
+                    self.profileHeader = header
+
+//                    self.tableView.registerClass(ProfileHeaderView.self, forHeaderFooterViewReuseIdentifier: "ProfileHeader")
+//                    var profileheader = self.tableView.dequeueReusableHeaderFooterViewWithIdentifier("ProfileHeader") as! ProfileHeaderView
+                    
+                    var profileheader = self.tableView.tableHeaderView as! ProfileHeaderView
+                    //self.tableView.tableHeaderView = nil
+                    
+//                    profileheader.headerInfo = self.profileHeader
+                    
+                    self.tableView.tableHeaderView = profileheader
+                    self.tableView.tableHeaderView?.reloadInputViews()
+                    
+                    
+                    
+//                    let cellTableViewHeader = self.tableView.dequeueReusableCellWithIdentifier("ProfileHeader") as! ProfileHeaderView
+//                    cellTableViewHeader.headerInfo = self.profileHeader
+//                    self.tableView.tableHeaderView = cellTableViewHeader
+//                    self.tableView.tableHeaderView?.reloadInputViews()
+
+                }
+                
+                
+                
+                
+                
+                
+                
+                InstaUserProfile().fetchRecentMediaDetails(id){ (posts: [InstaFeed.Post]) -> () in
+                self.posts = posts
+                self.tableView.reloadData()
+                self.refreshControl?.endRefreshing()
+                    
+                }
+        
+        } else {
+            InstaFeed().fetchPostDetails{ (posts: [InstaFeed.Post]) -> () in
+                self.posts = posts
+                self.tableView.reloadData()
+                self.refreshControl?.endRefreshing()
             
+            }
+                self.profileHeader = nil
+                self.tableView.tableHeaderView = nil
+                
         }
         //self.refreshControl?.endRefreshing()
         
@@ -99,15 +156,47 @@ class MediaTableViewController: UITableViewController {
         
         
     }
+
     
+//    func viewForProfileHeader() -> UIView? {
+//        let headerView = tableView. as! ProfileHeaderView
+//        let profileHeader = self.profileHeader
+//        cell.headerInfo
+//        
+//    }
     
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let cell = tableView.dequeueReusableCellWithIdentifier("HeaderCell") as! HeaderTableViewCell
         //let cell = tableView.dequeueReusableCellWithIdentifier("HeaderCell" , forSection: section) as! HeaderTableViewCell
         let post = posts[section]
         cell.post = post
+        
+        
+        let singleTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "myHeaderCellTapped:")
+        singleTap.numberOfTapsRequired = 1
+        singleTap.numberOfTouchesRequired = 1
+        cell.addGestureRecognizer(singleTap)
+        cell.userInteractionEnabled = true
+        
+        //cell.addGestureRecognizer(UITapGestureRecognizer())
+        
+//
+        
         return cell
     }
+    
+    @IBAction func myHeaderCellTapped(recognizer: UITapGestureRecognizer) {
+        if(recognizer.state == UIGestureRecognizerState.Ended){
+            print("myHeader has been tapped by the user.")
+            
+            
+            
+            self.performSegueWithIdentifier("ShowProfile", sender: recognizer.view)
+            
+            
+        }
+    }
+
     
 
     /*
@@ -145,14 +234,54 @@ class MediaTableViewController: UITableViewController {
     }
     */
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "ShowProfile" {
+            
+            let profileViewController = segue.destinationViewController as! MediaTableViewController
+            if let selectedUserCell = sender as? HeaderTableViewCell {
+//                let indexPath = tableView.indexPathForCell(selectedUserCell)!
+//                let selectedUser = posts[indexPath.row].userID
+                profileViewController.userID = selectedUserCell.userID
+                profileViewController.user = true
+                
+                
+                
+                
+                InstaUserProfile().fetchProfileDetails(selectedUserCell.userID) { (header: (InstaUserProfile.ProfileHeader)) -> () in
+                    profileViewController.profileHeader = header
+                    
+                    
+                    
+//                    var profileheader = profileViewController.tableView.tableHeaderView as! ProfileHeaderView
+//                    profileheader.headerInfo = profileViewController.profileHeader
+//                    
+//                    profileViewController.tableView.tableHeaderView = profileheader
+//                    profileViewController.tableView.tableHeaderView?.reloadInputViews()
+//                    
+                }
+
+                
+                //self.refreshData()
+            }
+        } else {
+            self.user = false
+            self.profileHeader = nil
+            
+//            self.refreshData()
+            //hide profile header
+        }
+        
     }
-    */
+    
+    
+//    override func viewWillAppear(animated: Bool) {
+//        
+//    }
+    
 
 }

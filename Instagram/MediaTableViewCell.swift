@@ -15,10 +15,14 @@ class MediaTableViewCell: UITableViewCell {
     @IBOutlet weak var likes: UILabel!
     @IBOutlet weak var caption: UILabel!
     var userID : String!
+    var postID: String!
+    
     
     var post: InstaFeed.Post? {
         didSet {
             if let setPost = post {
+                postID = setPost.postID
+                
                 userID = setPost.userID
                 
                 likes.text = (setPost.likes as NSNumber).stringValue
@@ -32,7 +36,7 @@ class MediaTableViewCell: UITableViewCell {
 //                    }
 //                }
 
-                loadOrFetchImageFor(userID, postImageUrl: post!.postImageURL, cell: self)
+                loadOrFetchImageFor(postID, postImageUrl: post!.postImageURL, cell: self)
                 
             }
         }
@@ -42,8 +46,8 @@ class MediaTableViewCell: UITableViewCell {
     
 
     
-    func loadOrFetchImageFor(userID: String, postImageUrl: String, cell: MediaTableViewCell) -> Void {
-        if let image = cachedImages[userID] { // already in cache
+    func loadOrFetchImageFor(postID: String, postImageUrl: String, cell: MediaTableViewCell) -> Void {
+        if let image = cachedImages[postID] { // already in cache
             cell.postImage?.image = image
         } else {
             if let url = NSURL(string: postImageUrl) { // need to fetch
@@ -52,11 +56,11 @@ class MediaTableViewCell: UITableViewCell {
                         if let avatarSquare = UIImage(data:data) {
                          //   let avatarCircle = UIImage.roundedRectImageFromImage(avatarSquare, imageSize: avatarSquare.size, cornerRadius: avatarSquare.size.width / 2)
                        //     self.cachedImages.updateValue(avatarCircle, forKey: login)
-                            self.cachedImages[userID] = avatarSquare
+                            self.cachedImages[postID] = avatarSquare
                             // Because this happens asynchronously in the background, we need to check that by the time we get here
                             // that the cell that requested the image is still the one that is being displayed.
                             // If it is not, we would have cached the image for the future but we will not display it for now.
-                            if(cell.userID == userID) {
+                            if(cell.postID == postID) {
                                 dispatch_async(dispatch_get_main_queue()) {
                                     //cell.imageView?.image = avatarCircle
                                     cell.postImage?.image = avatarSquare

@@ -10,12 +10,17 @@ import UIKit
 import DateTools
 
 class HeaderTableViewCell: UITableViewCell {
-
     
     @IBOutlet weak var profilePic: UIImageView!
     @IBOutlet weak var username: UILabel!
     @IBOutlet weak var timestamp: UILabel!
+    
     var userID: String!
+    
+    
+    //self.delegate = self
+    //MediaTableViewController.delegate = self
+    
     
     var post: InstaFeed.Post? {
         didSet {
@@ -41,11 +46,38 @@ class HeaderTableViewCell: UITableViewCell {
 //                }
                 
                 loadOrFetchImageFor(setPost.userID, profilePicUrl: setPost.profilePicURL, cell: self)
+              
                 
+                
+                
+                
+//                let singleTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "myHeaderCellTapped:")
+//                singleTap.numberOfTapsRequired = 1
+//                singleTap.numberOfTouchesRequired = 1
+//                self.addGestureRecognizer(singleTap)
+//                self.userInteractionEnabled = true
             }
         }
     }
 
+    
+    
+    @IBAction func myHeaderCellTapped(recognizer: UITapGestureRecognizer) {
+        if(recognizer.state == UIGestureRecognizerState.Ended){
+            print("myUIImageView has been tapped by the user.")
+
+            //self.performSegueWithIdentifier("ShowProfile", sender: self)
+            
+            //self.navigationController.pushViewController(self.storyboard.instantiateViewControllerWithIdentifier("secondStoryBoardName") as MediaTableViewController, animated: true)
+          
+        }
+    }
+    
+    
+    
+    //override func performSegueWithIdentifier()
+    
+    
     var cachedImages = SwiftlyLRU<String, UIImage>(capacity: 24)
     
     
@@ -98,6 +130,7 @@ class HeaderTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
 }
 
 

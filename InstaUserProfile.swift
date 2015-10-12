@@ -11,7 +11,7 @@ import Alamofire
 import SwiftyJSON
 
 
-public class InstaUserProfile {
+public class InstaUserProfile: InstaFeed {
     
     
     
@@ -25,25 +25,25 @@ public class InstaUserProfile {
         
     }
     
-    struct Post {
-        let userID: String
-        
-        
-        let profilePicURL: String
-        let username: String
-        let created_time: String
-        
-        let postImageURL: String
-        let caption: String
-        let likes: Int
-        //comments in table view
-        let comments: [Comment]
-    }
-    
-    struct Comment {
-        let username: String
-        let text: String
-    }
+//    struct Post {
+//        let userID: String
+//        
+//        
+//        let profilePicURL: String
+//        let username: String
+//        let created_time: String
+//        
+//        let postImageURL: String
+//        let caption: String
+//        let likes: Int
+//        //comments in table view
+//        let comments: [Comment]
+//    }
+//    
+//    struct Comment {
+//        let username: String
+//        let text: String
+//    }
     
     
     //https://api.instagram.com/v1/users/{user_id}/?client_id=c953ffadb974463f9f6813fc4fc91673
@@ -93,6 +93,7 @@ public class InstaUserProfile {
             }
             
             posts.append(Post(
+                postID: post["id"].stringValue,
                 userID: post["user"]["id"].stringValue,
                 profilePicURL: post["user"]["profile_picture"].stringValue,
                 username: post["user"]["username"].stringValue,
