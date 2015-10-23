@@ -9,7 +9,7 @@
 import UIKit
 import DateTools
 
-class HeaderTableViewCell: UITableViewCell {
+class SectionHeaderTableViewCell: UITableViewCell {
     
     @IBOutlet weak var profilePic: UIImageView!
     @IBOutlet weak var username: UILabel!
@@ -82,7 +82,7 @@ class HeaderTableViewCell: UITableViewCell {
     
     
     
-    func loadOrFetchImageFor(userID: String, profilePicUrl: String, cell: HeaderTableViewCell) -> Void {
+    func loadOrFetchImageFor(userID: String, profilePicUrl: String, cell: SectionHeaderTableViewCell) -> Void {
         if let image = cachedImages[userID] { // already in cache
             cell.profilePic?.image = image
         } else {
@@ -134,8 +134,9 @@ class HeaderTableViewCell: UITableViewCell {
 }
 
 
+
 extension UIImage {
-    
+
     class func roundedRectImageFromImage(image: UIImage, imageSize: CGSize, cornerRadius: CGFloat)->UIImage {
         UIGraphicsBeginImageContextWithOptions(imageSize, false, 0.0)
         let bounds = CGRect(origin: CGPointZero, size: imageSize)
@@ -143,8 +144,9 @@ extension UIImage {
         image.drawInRect(bounds)
         let finalImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        
+
         return finalImage
     }
-    
+
 }
+

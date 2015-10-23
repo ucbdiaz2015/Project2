@@ -11,13 +11,15 @@ import UIKit
 class MediaTableViewController: UITableViewController {
 
     var posts: [InstaFeed.Post] = []
-    //var userPosts: [InstaUserProfile.Post] = []
-    var user: Bool = false
     var userID: String?
-    var profileHeader: InstaUserProfile.ProfileHeader?
+
+    
+    @IBOutlet weak var profilePicture: UIImageView?
+    @IBOutlet weak var numPosts: UILabel?
+    @IBOutlet weak var numFollowers: UILabel?
+    @IBOutlet weak var numFollowing: UILabel?
     
     
-//    @IBOutlet weak var postHeaderCell: HeaderTableViewCell!
     
     
     
@@ -50,45 +52,30 @@ class MediaTableViewController: UITableViewController {
     
     func refreshData() {
 //        if self.user {
-            if let id = self.userID {
+        if let id = self.userID {
     
+           
+            
+            InstaUserProfile().fetchProfileDetails(id) { (header: (InstaUserProfile.ProfileHeader)) -> () in
                 
-                InstaUserProfile().fetchProfileDetails(id) { (header: (InstaUserProfile.ProfileHeader)) -> () in
-                    self.profileHeader = header
-
-//                    self.tableView.registerClass(ProfileHeaderView.self, forHeaderFooterViewReuseIdentifier: "ProfileHeader")
-//                    var profileheader = self.tableView.dequeueReusableHeaderFooterViewWithIdentifier("ProfileHeader") as! ProfileHeaderView
-                    
-                    var profileheader = self.tableView.tableHeaderView as! ProfileHeaderView
-                    //self.tableView.tableHeaderView = nil
-                    
-//                    profileheader.headerInfo = self.profileHeader
-                    
-                    self.tableView.tableHeaderView = profileheader
-                    self.tableView.tableHeaderView?.reloadInputViews()
-                    
-                    
-                    
-//                    let cellTableViewHeader = self.tableView.dequeueReusableCellWithIdentifier("ProfileHeader") as! ProfileHeaderView
-//                    cellTableViewHeader.headerInfo = self.profileHeader
-//                    self.tableView.tableHeaderView = cellTableViewHeader
-//                    self.tableView.tableHeaderView?.reloadInputViews()
-
-                }
+                self.numPosts!.text = (header.postCount as NSNumber).stringValue
+                self.numFollowers!.text = (header.followerCount as NSNumber).stringValue
+                self.numFollowing!.text = (header.followingCount as NSNumber).stringValue
+                self.loadOrFetchProfileImageFor(header.username, profilePicUrl: header.profilePicURL)
                 
-                
-                
-                
-                
-                
-                
-                InstaUserProfile().fetchRecentMediaDetails(id){ (posts: [InstaFeed.Post]) -> () in
+                self.tableView.tableHeaderView?.reloadInputViews()
+            }
+            
+            
+            
+            InstaUserProfile().fetchRecentMediaDetails(id){ (posts: [InstaFeed.Post]) -> () in
                 self.posts = posts
                 self.tableView.reloadData()
                 self.refreshControl?.endRefreshing()
                     
-                }
-        
+            }
+            
+            
         } else {
             InstaFeed().fetchPostDetails{ (posts: [InstaFeed.Post]) -> () in
                 self.posts = posts
@@ -96,14 +83,40 @@ class MediaTableViewController: UITableViewController {
                 self.refreshControl?.endRefreshing()
             
             }
-                self.profileHeader = nil
+                //self.profileHeader = nil
                 self.tableView.tableHeaderView = nil
-                
+            
         }
         //self.refreshControl?.endRefreshing()
         
     }
     
+    var cachedImages = SwiftlyLRU<String, UIImage>(capacity: 15)
+    
+    
+    
+    func loadOrFetchProfileImageFor(username: String, profilePicUrl: String) -> Void {
+        if let image = cachedImages[username] { // already in cache
+            self.profilePicture?.image = image
+        } else {
+            if let url = NSURL(string: profilePicUrl) { // need to fetch
+                
+                if let data = NSData(contentsOfURL: url) {
+                    if let avatarSquare = UIImage(data:data) {
+                        let avatarCircle = UIImage.roundedRectImageFromImage(avatarSquare, imageSize: avatarSquare.size, cornerRadius: avatarSquare.size.width / 2)
+                        
+                        self.cachedImages[username] = avatarCircle
+                        
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self.profilePicture?.image = avatarCircle
+                            
+                        }
+                    }
+                }
+                
+            }
+        }
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -126,6 +139,7 @@ class MediaTableViewController: UITableViewController {
         //return 1
     }
 
+    
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if (indexPath.row == 0) {
@@ -158,15 +172,10 @@ class MediaTableViewController: UITableViewController {
     }
 
     
-//    func viewForProfileHeader() -> UIView? {
-//        let headerView = tableView. as! ProfileHeaderView
-//        let profileHeader = self.profileHeader
-//        cell.headerInfo
-//        
-//    }
+
     
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let cell = tableView.dequeueReusableCellWithIdentifier("HeaderCell") as! HeaderTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("HeaderCell") as! SectionHeaderTableViewCell
         //let cell = tableView.dequeueReusableCellWithIdentifier("HeaderCell" , forSection: section) as! HeaderTableViewCell
         let post = posts[section]
         cell.post = post
@@ -178,12 +187,12 @@ class MediaTableViewController: UITableViewController {
         cell.addGestureRecognizer(singleTap)
         cell.userInteractionEnabled = true
         
-        //cell.addGestureRecognizer(UITapGestureRecognizer())
-        
-//
         
         return cell
     }
+    
+    
+    
     
     @IBAction func myHeaderCellTapped(recognizer: UITapGestureRecognizer) {
         if(recognizer.state == UIGestureRecognizerState.Ended){
@@ -197,42 +206,7 @@ class MediaTableViewController: UITableViewController {
         }
     }
 
-    
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
 
     // MARK: - Navigation
 
@@ -243,37 +217,30 @@ class MediaTableViewController: UITableViewController {
         if segue.identifier == "ShowProfile" {
             
             let profileViewController = segue.destinationViewController as! MediaTableViewController
-            if let selectedUserCell = sender as? HeaderTableViewCell {
-//                let indexPath = tableView.indexPathForCell(selectedUserCell)!
-//                let selectedUser = posts[indexPath.row].userID
+            if let selectedUserCell = sender as? SectionHeaderTableViewCell {
                 profileViewController.userID = selectedUserCell.userID
-                profileViewController.user = true
                 
                 
                 
-                
-                InstaUserProfile().fetchProfileDetails(selectedUserCell.userID) { (header: (InstaUserProfile.ProfileHeader)) -> () in
-                    profileViewController.profileHeader = header
-                    
-                    
-                    
-//                    var profileheader = profileViewController.tableView.tableHeaderView as! ProfileHeaderView
-//                    profileheader.headerInfo = profileViewController.profileHeader
-//                    
-//                    profileViewController.tableView.tableHeaderView = profileheader
-//                    profileViewController.tableView.tableHeaderView?.reloadInputViews()
-//                    
-                }
+//                if profileViewController.childViewControllers.count > 0 {
+//                    let headerViewController = profileViewController.childViewControllers[0]
+//                    let profileHeaderController = headerViewController as! ProfileHeaderViewController
+//                    profileHeaderController.userID = selectedUserCell.userID
+//                }
 
                 
-                //self.refreshData()
+                
+//                var profileheader = profileViewController.tableView.tableHeaderView as! ProfileHeaderViewController
+//                //                    self.tableView.tableHeaderView = nil
+//                
+//                //profileheader.headerInfo = self.profileHeader
+//                profileheader.userID = selectedUserCell.userID
+//                profileViewController.tableView.tableHeaderView = profileheader
+//                self.tableView.tableHeaderView?.reloadInputViews()
             }
-        } else {
-            self.user = false
-            self.profileHeader = nil
             
-//            self.refreshData()
-            //hide profile header
+            
+            
         }
         
     }
@@ -285,3 +252,7 @@ class MediaTableViewController: UITableViewController {
     
 
 }
+
+
+
+

@@ -15,9 +15,6 @@ class ProfileHeaderView: UIView {
     @IBOutlet weak var numFollowers: UILabel!
     @IBOutlet weak var numFollowing: UILabel!
     
-    
-    
-    
     var headerInfo: InstaUserProfile.ProfileHeader? {
         didSet {
             if let setHeader = headerInfo {
@@ -47,23 +44,20 @@ class ProfileHeaderView: UIView {
             self.profilePic?.image = image
         } else {
             if let url = NSURL(string: profilePicUrl) { // need to fetch
-                //dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.rawValue), 0))  {
+
                 if let data = NSData(contentsOfURL: url) {
                     if let avatarSquare = UIImage(data:data) {
                         let avatarCircle = UIImage.roundedRectImageFromImage(avatarSquare, imageSize: avatarSquare.size, cornerRadius: avatarSquare.size.width / 2)
-                        //self.cachedImages.updateValue(avatarCircle, forKey: login)
-                        //self.cachedImages[userID] = avatarSquare
+
                         self.cachedImages[username] = avatarCircle
-                        // Because this happens asynchronously in the background, we need to check that by the time we get here
-                        // that the cell that requested the image is still the one that is being displayed.
-                        // If it is not, we would have cached the image for the future but we will not display it for now.
+
                         dispatch_async(dispatch_get_main_queue()) {
                             self.profilePic?.image = avatarCircle
-                            //self.profilePic?.image = avatarSquare
+
                         }
                     }
                 }
-                    //}
+
             }
         }
     }
@@ -71,7 +65,20 @@ class ProfileHeaderView: UIView {
 
     
 
-    
+//extension UIImage {
+//    
+//    class func roundedRectImageFromImage(image: UIImage, imageSize: CGSize, cornerRadius: CGFloat)->UIImage {
+//        UIGraphicsBeginImageContextWithOptions(imageSize, false, 0.0)
+//        let bounds = CGRect(origin: CGPointZero, size: imageSize)
+//        UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius).addClip()
+//        image.drawInRect(bounds)
+//        let finalImage = UIGraphicsGetImageFromCurrentImageContext()
+//        UIGraphicsEndImageContext()
+//        
+//        return finalImage
+//    }
+//    
+//}
 
 
 
