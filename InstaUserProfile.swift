@@ -89,7 +89,7 @@ public class InstaUserProfile: InstaFeed {
             
             var comments = [Comment]()
             for comment in post["comments"]["data"].arrayValue {
-                comments.append(Comment(username: comment["username"].stringValue, text: comment["text"].stringValue))
+                comments.append(Comment(username: comment["from"]["username"].stringValue, text: comment["text"].stringValue))
             }
             
             posts.append(Post(

@@ -181,9 +181,11 @@ class MediaTableViewController: UITableViewController {
         cell.post = post
         
         
+        //check if cell already has gesture
         let singleTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "myHeaderCellTapped:")
         singleTap.numberOfTapsRequired = 1
         singleTap.numberOfTouchesRequired = 1
+        
         cell.addGestureRecognizer(singleTap)
         cell.userInteractionEnabled = true
         
